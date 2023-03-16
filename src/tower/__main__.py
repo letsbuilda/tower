@@ -32,7 +32,7 @@ class MyGame(arcade.Window):
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
 
-        level_1_path = Path(__file__).parent.parent.parent / "assets" / "levels" / "level_1.tmx"
+        level_1_path = self.get_asset_path("levels/level_1.tmx")
         self.tile_map = arcade.load_tilemap(level_1_path)
 
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
@@ -47,7 +47,13 @@ class MyGame(arcade.Window):
 
         self.scene.draw()
 
-
+    def get_asset_path(self, file_name: str) -> str:
+        """Returns the asset path as a string."""
+        
+        assets_dir = Path(__file__).resolve().parent.parent / "assets"
+        file_path = assets_dir / file_name
+        return str(file_path)
+    
 def main():
     """Main function"""
     window = MyGame()
