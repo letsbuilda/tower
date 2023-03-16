@@ -10,7 +10,7 @@ def test_atk_spec_init():
     assert attack.name == 'Fireball'
     assert attack.desc == 'a ball of fire'
     assert attack.base_atk_damage == 5 and isinstance(attack.base_atk_damage, float)
-    assert attack.base_atk_speed == 1 and isinstance(attack.base_atk_speed, float)
+    assert attack.base_atk_cooldown == 1 and isinstance(attack.base_atk_cooldown, float)
     assert attack.base_proj_speed == 1 and isinstance(attack.base_proj_speed, float)
 
 

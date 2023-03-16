@@ -5,7 +5,6 @@ Platformer Game
 from pathlib import Path
 
 import arcade
-from sprites import AttackSpec, Enemy, Tower
 
 # Constants
 SCREEN_WIDTH = 960

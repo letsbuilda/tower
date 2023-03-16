@@ -16,27 +16,32 @@ class AttackSpec:
     name: str
     desc: str
     base_atk_damage: float = field(converter=float)
-    base_atk_speed: float = field(converter=float)
+    base_atk_cooldown: float = field(converter=float)
     base_proj_speed: float = field(converter=float)
 
     def get_sprite_path(self) -> Path:
+        """Gets the path for the projectile sprite image"""
         return Path(__file__).parent.parent.parent / "assets" / "sprites" / "projectiles" / f"{self.name.lower()}.png"
 
     # These three should scale off of level
     # Proper scaling can come later after we actually implement gameplay
     def atk_damage(self, level: int) -> float:
+        """Calculates the damage of the attack"""
         return self.base_atk_damage * level
 
     def atk_speed(self, level: int) -> float:
-        return self.base_atk_speed * level
+        """Calculates the cooldown of the attack"""
+        return self.base_atk_cooldown * level
 
     def proj_speed(self, level: int) -> float:
+        """Calculates the speed of the projectile"""
         return self.base_proj_speed * level
 
 
 class Tower(arcade.Sprite):
     """Tower sprite"""
 
+    # pylint: disable-next=too-many-arguments
     def __init__(
         self, name: str, desc: str, level: int, attacks: list[AttackSpec], scale: int = 1
     ):  # IDK if scale is important but it's in the docs
