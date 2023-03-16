@@ -2,14 +2,9 @@
 Platformer Game
 """
 
-from pathlib import Path
-
 import arcade
 
-# Constants
-SCREEN_WIDTH = 960
-SCREEN_HEIGHT = 640
-SCREEN_TITLE = "Platformer"
+from constants import LEVELS_DIR, SCREEN_HEIGHT, SCREEN_TITLE, SCREEN_WIDTH
 
 
 class MyGame(arcade.Window):
@@ -32,8 +27,7 @@ class MyGame(arcade.Window):
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
 
-        level_1_path = Path(__file__).parent.parent.parent / "assets" / "levels" / "level_1.tmx"
-        self.tile_map = arcade.load_tilemap(level_1_path)
+        self.tile_map = arcade.load_tilemap(LEVELS_DIR / "level_1.tmx")
 
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
