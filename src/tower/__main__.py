@@ -3,7 +3,7 @@ Platformer Game
 """
 
 import arcade
-from constants import LEVELS_DIR, SCREEN_HEIGHT, SCREEN_TITLE, SCREEN_WIDTH
+from .constants import LEVELS_DIR, SCREEN_HEIGHT, SCREEN_TITLE, SCREEN_WIDTH
 
 
 class MyGame(arcade.Window):
