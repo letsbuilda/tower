@@ -1,11 +1,14 @@
 """
 Platformer Game
 """
+
+from pathlib import Path
+
 import arcade
 
 # Constants
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 650
+SCREEN_WIDTH = 960
+SCREEN_HEIGHT = 640
 SCREEN_TITLE = "Platformer"
 
 
@@ -20,15 +23,29 @@ class MyGame(arcade.Window):
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
+        self.tile_map = None
+        self.scene = None
+
+        self.towers = None
+        self.enemies = None
+
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
-        pass
+
+        level_1_path = Path(__file__).parent.parent.parent / "assets" / "levels" / "level_1.tmx"
+        self.tile_map = arcade.load_tilemap(level_1_path)
+
+        self.scene = arcade.Scene.from_tilemap(self.tile_map)
+
+        self.towers = arcade.SpriteList()
+        self.enemies = arcade.SpriteList()
 
     def on_draw(self):
         """Render the screen."""
 
         self.clear()
-        # Code to draw the screen goes here
+
+        self.scene.draw()
 
 
 def main():
