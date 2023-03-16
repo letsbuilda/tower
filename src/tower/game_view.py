@@ -1,8 +1,8 @@
 """Game View"""
 
 from pathlib import Path
-import arcade
 
+import arcade
 
 
 class GameView(arcade.View):

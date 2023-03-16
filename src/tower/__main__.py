@@ -3,6 +3,7 @@ Platformer Game
 """
 
 import arcade
+
 from tower.game_view import GameView
 
 # Constants
