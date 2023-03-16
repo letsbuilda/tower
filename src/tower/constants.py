@@ -2,7 +2,6 @@
 
 from pathlib import Path
 
-
 # Screen
 SCREEN_WIDTH = 960
 SCREEN_HEIGHT = 640
