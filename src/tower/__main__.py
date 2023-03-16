@@ -49,7 +49,7 @@ class MyGame(arcade.Window):
 
     def get_asset_path(self, file_name: str) -> str:
         """Returns the asset path as a string."""
-        
+
         assets_dir = Path(__file__).resolve().parent.parent / "assets"
         file_path = assets_dir / file_name
         return str(file_path)
