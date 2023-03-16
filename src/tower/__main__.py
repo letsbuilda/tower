@@ -2,9 +2,9 @@
 Platformer Game
 """
 
-import arcade
-
 from pathlib import Path
+
+import arcade
 
 # Constants
 SCREEN_WIDTH = 960
