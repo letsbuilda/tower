@@ -1,29 +1,40 @@
-"""Menu Screen to start a game"""
+"""Game View"""
 
 import arcade
+from pathlib import Path
 
-from tower.src.tower.__main__ import GameView
 
+class GameView(arcade.View):
+    """
+    Main application class.
+    """
 
-class StartView(arcade.View):
-    def on_show_view(self):
-        """ This is run once when we switch to this view """
-        arcade.set_background_color(arcade.csscolor.DARK_SLATE_BLUE)
+    def __init__(self):
+        # Call the parent class and set up the window
+        super().__init__()
+        self.window.set_mouse_visible(False)
+        arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
-        # Reset the viewport, necessary if we have a scrolling game and we need
-        # to reset the viewport back to the start so we can see what we draw.
-        arcade.set_viewport(0, self.window.width, 0, self.window.height)
+        self.tile_map = None
+        self.scene = None
+
+        self.towers = None
+        self.enemies = None
+
+    def setup(self):
+        """Set up the game here. Call this function to restart the game."""
+
+        level_1_path = Path(__file__).parent.parent.parent / "assets" / "levels" / "level_1.tmx"
+        self.tile_map = arcade.load_tilemap(level_1_path)
+
+        self.scene = arcade.Scene.from_tilemap(self.tile_map)
+
+        self.towers = arcade.SpriteList()
+        self.enemies = arcade.SpriteList()
 
     def on_draw(self):
-        """ Draw this view """
-        self.clear()
-        arcade.draw_text("Instructions Screen", self.window.width / 2, self.window.height / 2,
-                         arcade.color.WHITE, font_size=50, anchor_x="center")
-        arcade.draw_text("Click to advance", self.window.width / 2, self.window.height / 2-75,
-                         arcade.color.WHITE, font_size=20, anchor_x="center")
+        """Render the screen."""
 
-    def on_mouse_press(self, _x, _y, _button, _modifiers):
-        """ If the user presses the mouse button, start the game. """
-        game_view = GameView()
-        game_view.setup()
-        self.window.show_view(game_view)
+        self.clear()
+
+        self.scene.draw()
