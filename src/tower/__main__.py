@@ -17,7 +17,7 @@ class StartView(arcade.View):
     """Start view"""
 
     def on_show_view(self):
-        """ This is run once when we switch to this view """
+        """This is run once when we switch to this view"""
         arcade.set_background_color(arcade.csscolor.BLACK)
 
         # to reset the viewport back to the start so we can see what we draw.
@@ -25,13 +25,25 @@ class StartView(arcade.View):
 
     def on_draw(self):
         self.clear()
-        arcade.draw_text("Welcome to our beautiful game", self.window.width / 2,
-                         self.window.height / 2, arcade.color.WHITE, font_size=50, anchor_x="center")
-        arcade.draw_text("Click to start a game", self.window.width / 2,
-                         self.window.height / 2 - 75, arcade.color.WHITE, font_size=20, anchor_x="center")
+        arcade.draw_text(
+            "Welcome to our beautiful game",
+            self.window.width / 2,
+            self.window.height / 2,
+            arcade.color.WHITE,
+            font_size=50,
+            anchor_x="center",
+        )
+        arcade.draw_text(
+            "Click to start a game",
+            self.window.width / 2,
+            self.window.height / 2 - 75,
+            arcade.color.WHITE,
+            font_size=20,
+            anchor_x="center",
+        )
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
-        """ If the user presses the mouse button, start the game. """
+        """If the user presses the mouse button, start the game."""
         game_view = GameView()
         game_view.setup()
         self.window.show_view(game_view)

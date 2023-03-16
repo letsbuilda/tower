@@ -51,8 +51,7 @@ class Tower(arcade.Sprite):
         self.desc = desc
         self.level = level
 
-        self.sprite_path = Path(__file__).parent.parent.parent / \
-            "assets" / "sprites" / "towers" / f"{name}.png"
+        self.sprite_path = Path(__file__).parent.parent.parent / "assets" / "sprites" / "towers" / f"{name}.png"
 
         self.attacks = attacks
 
@@ -69,7 +68,6 @@ class Enemy(arcade.Sprite):
         self.desc = desc
         self.speed = speed
 
-        self.sprite_path = Path(__file__).parent.parent.parent / \
-            "assets" / "sprites" / "enemies" / f"{name}.png"
+        self.sprite_path = Path(__file__).parent.parent.parent / "assets" / "sprites" / "enemies" / f"{name}.png"
 
         super().__init__(self.sprite_path, scale, hit_box_algorithm=None)
