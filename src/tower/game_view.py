@@ -74,21 +74,30 @@ class GameView(arcade.View):
         returns a list of tuples (x, y) representing a coordinate of the path
         that the enemy follows
         """
+        # contains all coordinates in the form (x, y), that the enemies should follow
         position_list = []
+
+        # this is a 1D representation of our map containing sprites
         all_sprites = self.scene.get_sprite_list("Tile Layer 1")
+
+        # this is a 2D representation of our map containing only the id of the sprite
         tile_map = self.tile_map.get_tilemap_layer("Tile Layer 1").data
 
+        # get the postion of the start block
         row, col = self._find_start_index(tile_map)
 
+        # visited keeps track whether we already visited tile_map[row][col]
         visited = [[False for _ in range(len(tile_map[0]))] for _ in range(len(tile_map))]
 
         # while the end of the path is not reached
         while all_sprites[row * len(tile_map[0]) + col].properties["tile_id"] != 5:
             # add current position to position list
-            # get sprite of row and col
+            # get sprite of row and col by calculating its 1D position
             sprite = all_sprites[row * len(tile_map[0]) + col]
+
             position_list.append((sprite.center_x, sprite.center_y))
             visited[row][col] = True
+
             # get next path position
             row, col = self.get_next_path_position(row, col, tile_map, visited)
 
