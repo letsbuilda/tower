@@ -5,12 +5,7 @@ Platformer Game
 import arcade
 
 from tower.game_view import GameView
-
-# Constants
-
-SCREEN_WIDTH = 960
-SCREEN_HEIGHT = 640
-SCREEN_TITLE = "Platformer"
+from .constants import LEVELS_DIR, SCREEN_HEIGHT, SCREEN_TITLE, SCREEN_WIDTH
 
 
 class StartView(arcade.View):
