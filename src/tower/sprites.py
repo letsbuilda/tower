@@ -37,6 +37,19 @@ class AttackSpec:
         """Calculates the speed of the projectile"""
         return self.base_proj_speed * level
 
+class Enemy(arcade.Sprite):
+    """Enemy sprite"""
+
+    def __init__(self, name: str, desc: str, speed: float, scale: int = 1):
+        """Enemy constructor"""
+
+        self.name = name
+        self.desc = desc
+        self.speed = speed
+
+        self.sprite_path = Path(__file__).parent.parent.parent / "assets" / "sprites" / "enemies" / f"{name}.png"
+
+        super().__init__(self.sprite_path, scale, hit_box_algorithm=None)
 
 class Tower(arcade.Sprite):
     """Tower sprite"""
@@ -62,18 +75,15 @@ class Tower(arcade.Sprite):
         self.attacks = attacks
 
         super().__init__(self.sprite_path, scale, hit_box_algorithm=None)
-
-
-class Enemy(arcade.Sprite):
-    """Enemy sprite"""
-
-    def __init__(self, name: str, desc: str, speed: float, scale: int = 1):
-        """Enemy constructor"""
-
-        self.name = name
-        self.desc = desc
-        self.speed = speed
-
-        self.sprite_path = Path(__file__).parent.parent.parent / "assets" / "sprites" / "enemies" / f"{name}.png"
-
-        super().__init__(self.sprite_path, scale, hit_box_algorithm=None)
+    
+    def show_range(self):
+        """Shows the range of the tower"""
+        arcade.draw_circle_outline(self.center_x, self.center_y, self.radius, arcade.color.BLACK, 2)
+        
+    def attack(self, enemy: Enemy):
+        """ 
+        Initiates an attack on the enemy when in circle range
+        To do this all we need to do is check if the distance 
+        between the enemy and the tower is less than or equal to the radius
+        """
+        pass
