@@ -36,6 +36,9 @@ docs = [
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.package-data]
+tower = ["**/*.png", "**/*.tmx", "**/*.tsx"]
+
 [tool.black]
 target-version = ["py310"]
 line-length = 120
