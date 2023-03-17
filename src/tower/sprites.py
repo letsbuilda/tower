@@ -8,6 +8,9 @@ from attrs import define, field
 
 from .constants import ASSETS_DIR
 
+def get_sprite_path(parent: str, name: str) -> Path:
+    """Gets the path for the sprite image"""
+    return ASSETS_DIR / "sprites" / parent / f"{name.lower()}.png"
 
 @define(slots=True, frozen=True)
 class AttackSpec:
@@ -18,10 +21,6 @@ class AttackSpec:
     base_atk_damage: float = field(converter=float)
     base_atk_cooldown: float = field(converter=float)
     base_proj_speed: float = field(converter=float)
-
-    def get_sprite_path(self) -> Path:
-        """Gets the path for the projectile sprite image"""
-        return ASSETS_DIR / "sprites" / "projectiles" / f"{self.name.lower()}.png"
 
     # These three should scale off of level
     # Proper scaling can come later after we actually implement gameplay
@@ -47,7 +46,7 @@ class Enemy(arcade.Sprite):
         self.desc = desc
         self.speed = speed
 
-        self.sprite_path = Path(__file__).parent.parent.parent / "assets" / "sprites" / "enemies" / f"{name}.png"
+        self.sprite_path = get_sprite_path("enemies", name)
 
         super().__init__(self.sprite_path, scale, hit_box_algorithm=None)
 
@@ -56,30 +55,29 @@ class Tower(arcade.Sprite):
 
     # pylint: disable-next=too-many-arguments
     def __init__(
-        self, 
-        name: str, 
-        desc: str, 
-        level: int, 
-        attacks: list[AttackSpec], 
+        self,
+        name: str,
+        desc: str,
+        level: int,
+        attacks: list[AttackSpec],
         scale: int = 1,
         radius: int = 100
     ):  # IDK if scale is important but it's in the docs https://github.com/e1pupper/tower
         """Tower constructor"""
-        super().__init__(name, desc, scale)
-
         self.level = level
         self.radius = radius
+        self.desc = desc
 
-        self.sprite_path = Path(__file__).parent.parent.parent / "assets" / "sprites" / "towers" / f"{name}.png"
+        self.sprite_path = get_sprite_path("towers", name)
 
         self.attacks = attacks
 
         super().__init__(self.sprite_path, scale, hit_box_algorithm=None)
-    
+
     def show_range(self):
         """Shows the range of the tower"""
         arcade.draw_circle_outline(self.center_x, self.center_y, self.radius, arcade.color.BLACK, 2)
-        
+
     def attack(self, enemy: Enemy):
         """ 
         Initiates an attack on the enemy when in circle range
