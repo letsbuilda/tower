@@ -43,7 +43,12 @@ class Tower(arcade.Sprite):
 
     # pylint: disable-next=too-many-arguments
     def __init__(
-        self, name: str, desc: str, level: int, attacks: list[AttackSpec], scale: int = 1
+        self,
+        name: str,
+        desc: str,
+        level: int,
+        attacks: list[AttackSpec],
+        scale: int = 1,
     ):  # IDK if scale is important but it's in the docs
         """Tower constructor"""
 
