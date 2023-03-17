@@ -4,8 +4,8 @@ Platformer Game
 
 import arcade
 
-from tower.game_view import GameView
-from .constants import LEVELS_DIR, SCREEN_HEIGHT, SCREEN_TITLE, SCREEN_WIDTH
+from .constants import SCREEN_HEIGHT, SCREEN_TITLE, SCREEN_WIDTH
+from .game_view import GameView
 
 
 class StartView(arcade.View):
