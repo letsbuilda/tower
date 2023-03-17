@@ -8,6 +8,8 @@ from pathlib import Path
 import arcade
 from attrs import define, field
 
+from .constants import ASSETS_DIR
+
 
 @define(slots=True, frozen=True)
 class AttackSpec:
@@ -21,7 +23,7 @@ class AttackSpec:
 
     def get_sprite_path(self) -> Path:
         """Gets the path for the projectile sprite image"""
-        return Path(__file__).parent.parent.parent / "assets" / "sprites" / "projectiles" / f"{self.name.lower()}.png"
+        return ASSETS_DIR / "sprites" / "projectiles" / f"{self.name.lower()}.png"
 
     # These three should scale off of level
     # Proper scaling can come later after we actually implement gameplay
@@ -57,8 +59,12 @@ class Tower(arcade.Sprite):
 
     # pylint: disable-next=too-many-arguments
     def __init__(
-        self, name: str, desc: str, 
-        level: int, attacks: list[AttackSpec], scale: int = 1,
+        self, 
+        name: str, 
+        desc: str, 
+        level: int, 
+        attacks: list[AttackSpec], 
+        scale: int = 1,
         radius: int = 100
     ):  # IDK if scale is important but it's in the docs https://github.com/e1pupper/tower
         """Tower constructor"""
