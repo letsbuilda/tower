@@ -21,13 +21,7 @@ class AttackSpec:
 
     def get_sprite_path(self) -> Path:
         """Gets the path for the projectile sprite image"""
-        return (
-            Path(__file__).parent.parent.parent
-            / "assets"
-            / "sprites"
-            / "projectiles"
-            / f"{self.name.lower()}.png"
-        )
+        return Path(__file__).parent.parent.parent / "assets" / "sprites" / "projectiles" / f"{self.name.lower()}.png"
 
     # These three should scale off of level
     # Proper scaling can come later after we actually implement gameplay
@@ -62,13 +56,7 @@ class Tower(arcade.Sprite):
         self.desc = desc
         self.level = level
 
-        self.sprite_path = (
-            Path(__file__).parent.parent.parent
-            / "assets"
-            / "sprites"
-            / "towers"
-            / f"{name}.png"
-        )
+        self.sprite_path = Path(__file__).parent.parent.parent / "assets" / "sprites" / "towers" / f"{name}.png"
 
         self.attacks = attacks
 
@@ -85,12 +73,6 @@ class Enemy(arcade.Sprite):
         self.desc = desc
         self.speed = speed
 
-        self.sprite_path = (
-            Path(__file__).parent.parent.parent
-            / "assets"
-            / "sprites"
-            / "enemies"
-            / f"{name}.png"
-        )
+        self.sprite_path = Path(__file__).parent.parent.parent / "assets" / "sprites" / "enemies" / f"{name}.png"
 
         super().__init__(self.sprite_path, scale, hit_box_algorithm=None)
