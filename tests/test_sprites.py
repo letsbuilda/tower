@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from tower.sprites import AttackSpec
+from tower.sprites import AttackSpec, get_sprite_path
 
 
 def test_atk_spec_init():
@@ -16,5 +16,5 @@ def test_atk_spec_init():
 
 def test_atk_spec_sprite_path():
     attack = AttackSpec('Fireball', 'a ball of fire', 5, 1, 1)
-    assert attack.get_sprite_path() \
+    assert get_sprite_path("projectiles", attack.name) \
            == Path(__file__).parent.parent / 'assets' / 'sprites' / 'projectiles' / 'fireball.png'
