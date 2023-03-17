@@ -82,4 +82,3 @@ class Tower(arcade.Sprite):
         To do this all we need to do is check if the distance
         between the enemy and the tower is less than or equal to the radius
         """
-        pass

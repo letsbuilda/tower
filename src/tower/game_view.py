@@ -4,7 +4,7 @@ from pathlib import Path
 
 import arcade
 
-import tower.sprites as sprites
+from tower import sprites
 
 
 class GameView(arcade.View):
