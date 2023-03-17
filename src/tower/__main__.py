@@ -1,6 +1,4 @@
-"""
-Platformer Game
-"""
+"""Platformer Game"""
 
 import arcade
 

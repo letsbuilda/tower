@@ -1,17 +1,11 @@
-"""
-Sprites
-"""
-from pathlib import Path
+"""Sprites"""
+
+from importlib.resources import as_file
 
 import arcade
 from attrs import define, field
 
-from .constants import ASSETS_DIR
-
-
-def get_sprite_path(parent: str, name: str) -> Path:
-    """Gets the path for the sprite image"""
-    return ASSETS_DIR / "sprites" / parent / f"{name.lower()}.png"
+from .assets import get_sprite_path
 
 
 @define(slots=True, frozen=True)
@@ -44,14 +38,12 @@ class Enemy(arcade.Sprite):
 
     def __init__(self, name: str, desc: str, speed: float, scale: int = 1):
         """Enemy constructor"""
-
         self.name = name
         self.desc = desc
         self.speed = speed
 
-        self.sprite_path = get_sprite_path("enemies", name)
-
-        super().__init__(self.sprite_path, scale, hit_box_algorithm=None)
+        with as_file(get_sprite_path("enemies", f"{name}.png")) as file_path:
+            super().__init__(file_path, scale, hit_box_algorithm=None)
 
 
 class Tower(arcade.Sprite):
@@ -60,17 +52,15 @@ class Tower(arcade.Sprite):
     # pylint: disable-next=too-many-arguments
     def __init__(
         self, name: str, desc: str, level: int, attacks: list[AttackSpec], scale: int = 1, radius: int = 100
-    ):  # IDK if scale is important but it's in the docs https://github.com/e1pupper/tower
+    ):  # IDK if scale is important but it's in the docs
         """Tower constructor"""
         self.level = level
         self.radius = radius
         self.desc = desc
-
-        self.sprite_path = get_sprite_path("towers", name)
-
         self.attacks = attacks
 
-        super().__init__(self.sprite_path, scale, hit_box_algorithm=None)
+        with as_file(get_sprite_path("towers", f"{name}.png")) as file_path:
+            super().__init__(file_path, scale, hit_box_algorithm=None)
 
     def show_range(self):
         """Shows the range of the tower"""

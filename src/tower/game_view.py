@@ -1,16 +1,14 @@
 """Game View"""
-
-from pathlib import Path
+from importlib.resources import as_file
 
 import arcade
 
-from tower import sprites
+from . import sprites
+from .assets import get_tile_map_path
 
 
 class GameView(arcade.View):
-    """
-    Main application class.
-    """
+    """Main application class."""
 
     def __init__(self):
         # Call the parent class and set up the window
@@ -27,8 +25,8 @@ class GameView(arcade.View):
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
 
-        level_1_path = Path(__file__).parent.parent.parent / "assets" / "levels" / "level_1.tmx"
-        self.tile_map = arcade.load_tilemap(level_1_path)
+        with as_file(get_tile_map_path("level_1.tmx")) as file_path:
+            self.tile_map = arcade.load_tilemap(file_path)
 
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
