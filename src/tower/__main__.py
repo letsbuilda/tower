@@ -24,6 +24,7 @@ class StartView(arcade.View):
         arcade.set_viewport(0, self.window.width, 0, self.window.height)
 
     def on_draw(self):
+        """Called when this view should draw"""
         self.clear()
         arcade.draw_text(
             "Welcome to our beautiful game",
