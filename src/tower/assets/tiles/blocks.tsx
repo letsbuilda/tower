@@ -7,4 +7,10 @@
  <tile id="3">
   <image width="32" height="32" source="../world/grass.png"/>
  </tile>
+ <tile id="4">
+  <image width="32" height="32" source="../world/start_block.png"/>
+ </tile>
+ <tile id="5">
+  <image width="32" height="32" source="../world/end_block.png"/>
+ </tile>
 </tileset>
