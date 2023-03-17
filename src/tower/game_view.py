@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import arcade
+import tower.sprites as sprites
 
 
 class GameView(arcade.View):
@@ -31,6 +32,12 @@ class GameView(arcade.View):
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
         self.towers = arcade.SpriteList()
+        
+        self.towers.append(sprites.Tower("tower1", "A basic tower", 1, [sprites.AttackSpec("Basic Attack", "A basic attack", 1, 1, 1)]))
+        
+        self.towers[0].center_x = self.scene.get_sprite_list('Tile Layer 1')[29].center_x
+        self.towers[0].center_y = self.scene.get_sprite_list('Tile Layer 1')[29].center_y
+        
         self.enemies = arcade.SpriteList()
 
     def on_draw(self):
@@ -39,3 +46,6 @@ class GameView(arcade.View):
         self.clear()
 
         self.scene.draw()
+        
+        self.towers.draw()
+        self.towers[0].show_range()
