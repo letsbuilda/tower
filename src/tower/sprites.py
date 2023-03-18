@@ -70,7 +70,7 @@ class Enemy(arcade.Sprite):
         start_x = self.center_x
         start_y = self.center_y
 
-        # get next destination postion
+        # get next destination position
         destination_x, destination_y = self.position_list[self.current_position]
 
         # X and Y diff between the two

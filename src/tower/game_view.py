@@ -3,6 +3,8 @@ from importlib.resources import as_file
 
 import arcade
 
+from tower.constants import END_SPRITE_IDS, PATH_SPRITES, START_SPRITE_IDS
+
 from . import sprites
 from .assets import get_tile_map_path
 
@@ -83,14 +85,14 @@ class GameView(arcade.View):
         # this is a 2D representation of our map containing only the id of the sprite
         tile_map = self.tile_map.get_tilemap_layer("Tile Layer 1").data
 
-        # get the postion of the start block
+        # get the position of the start block
         row, col = self._find_start_index(tile_map)
 
         # visited keeps track whether we already visited tile_map[row][col]
         visited = [[False for _ in range(len(tile_map[0]))] for _ in range(len(tile_map))]
 
         # while the end of the path is not reached
-        while all_sprites[row * len(tile_map[0]) + col].properties["tile_id"] != 5:
+        while all_sprites[row * len(tile_map[0]) + col].properties["tile_id"] not in END_SPRITE_IDS:
             # add current position to position list
             # get sprite of row and col by calculating its 1D position
             sprite = all_sprites[row * len(tile_map[0]) + col]
@@ -107,10 +109,9 @@ class GameView(arcade.View):
 
     def _find_start_index(self, tile_map):
         """returns the index of the tile that represents the start of the path"""
-        start_sprites = [5]
         for row_index, row in enumerate(tile_map):
             for col_index, col in enumerate(row):
-                if col in start_sprites:
+                if col in START_SPRITE_IDS:
                     return row_index, col_index
         return None, None
 
@@ -118,26 +119,24 @@ class GameView(arcade.View):
         """Returns the next path position
         assumes that there is only one possible path
         """
-        # has all id's of paths
-        path_blocks = [3, 6, 5]
 
         # check top neighbor
         if row > 0:
-            if tile_map[row - 1][col] in path_blocks and not visited[row - 1][col]:
+            if tile_map[row - 1][col] in PATH_SPRITES and not visited[row - 1][col]:
                 return row - 1, col
 
         # check bottom neighbor
         if row < len(tile_map) - 1:
-            if tile_map[row + 1][col] in path_blocks and not visited[row + 1][col]:
+            if tile_map[row + 1][col] in PATH_SPRITES and not visited[row + 1][col]:
                 return row + 1, col
 
         # check left neighbor
         if col > 0:
-            if tile_map[row][col - 1] in path_blocks and not visited[row][col - 1]:
+            if tile_map[row][col - 1] in PATH_SPRITES and not visited[row][col - 1]:
                 return row, col - 1
 
         # check right neighbor
         if col < len(tile_map[0]) - 1:
-            if tile_map[row][col + 1] in path_blocks and not visited[row][col + 1]:
+            if tile_map[row][col + 1] in PATH_SPRITES and not visited[row][col + 1]:
                 return row, col + 1
         return -1, -1
