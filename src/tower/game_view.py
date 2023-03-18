@@ -24,9 +24,7 @@ class GameView(arcade.View):
         self.towers = None
         self.enemies = None
         self.active_projectiles = None
-
-        # calculate the path enemies should follow (This only has to be done once)
-        self.position_list = self.calculate_enemy_path()
+        self.position_list = None
 
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
@@ -39,6 +37,9 @@ class GameView(arcade.View):
         self.towers = arcade.SpriteList()
         self.enemies = arcade.SpriteList()
         self.active_projectiles = arcade.SpriteList()
+
+        # calculate the path enemies should follow (This only has to be done once)
+        self.position_list = self.calculate_enemy_path()
 
         # Temporary stuff
         test_tower = sprites.Tower(
