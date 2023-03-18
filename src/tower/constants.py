@@ -11,6 +11,5 @@ START_SPRITE_IDS = [5]
 # ID's of our path end sprites
 END_SPRITE_IDS = [5]
 
-
 # ID's of all path blocks
-PATH_SPRITES = [3, 6, 5]
+PATH_SPRITE_IDS = [3, 6, 5]
