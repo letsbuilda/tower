@@ -3,10 +3,9 @@ from importlib.resources import as_file
 
 import arcade
 
-from tower.constants import END_SPRITE_IDS, PATH_SPRITES, START_SPRITE_IDS
-
 from . import sprites
 from .assets import get_tile_map_path
+from .constants import END_SPRITE_IDS, PATH_SPRITE_IDS, START_SPRITE_IDS
 
 
 class GameView(arcade.View):
@@ -122,21 +121,21 @@ class GameView(arcade.View):
 
         # check top neighbor
         if row > 0:
-            if tile_map[row - 1][col] in PATH_SPRITES and not visited[row - 1][col]:
+            if tile_map[row - 1][col] in PATH_SPRITE_IDS and not visited[row - 1][col]:
                 return row - 1, col
 
         # check bottom neighbor
         if row < len(tile_map) - 1:
-            if tile_map[row + 1][col] in PATH_SPRITES and not visited[row + 1][col]:
+            if tile_map[row + 1][col] in PATH_SPRITE_IDS and not visited[row + 1][col]:
                 return row + 1, col
 
         # check left neighbor
         if col > 0:
-            if tile_map[row][col - 1] in PATH_SPRITES and not visited[row][col - 1]:
+            if tile_map[row][col - 1] in PATH_SPRITE_IDS and not visited[row][col - 1]:
                 return row, col - 1
 
         # check right neighbor
         if col < len(tile_map[0]) - 1:
-            if tile_map[row][col + 1] in PATH_SPRITES and not visited[row][col + 1]:
+            if tile_map[row][col + 1] in PATH_SPRITE_IDS and not visited[row][col + 1]:
                 return row, col + 1
         return -1, -1
