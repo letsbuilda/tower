@@ -91,7 +91,7 @@ class GameView(arcade.View):
         visited = [[False for _ in range(len(tile_map[0]))] for _ in range(len(tile_map))]
 
         # while the end of the path is not reached
-        while all_sprites[row * len(tile_map[0]) + col].properties["tile_id"] not in END_SPRITE_IDS:
+        while tile_map[row][col] not in END_SPRITE_IDS:
             # add current position to position list
             # get sprite of row and col by calculating its 1D position
             sprite = all_sprites[row * len(tile_map[0]) + col]
