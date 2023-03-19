@@ -177,7 +177,7 @@ class Projectile(arcade.Sprite):
         self.speed = attack.proj_speed(level)
         self.level = level
 
-        with as_file(get_sprite_path("projectiles", f"{self.attack.name}.png")) as file_path:
+        with as_file(get_sprite_path("projectiles", f"{self.attack.name.lower()}.png")) as file_path:
             super().__init__(file_path, scale)
 
         self.center_x, self.center_y = position
