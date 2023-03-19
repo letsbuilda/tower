@@ -1,8 +1,12 @@
 """Variables that are needed in multiple files and don't change."""
 
+# Map
+MAP_WIDTH = 24
+MAP_HEIGHT = 15
+
 # Screen
-SCREEN_WIDTH = 24 * 64
-SCREEN_HEIGHT = 15 * 64
+SCREEN_WIDTH = MAP_WIDTH * 64
+SCREEN_HEIGHT = MAP_HEIGHT * 64
 SCREEN_TITLE = "Platformer"
 
 # ID's of our path start sprites in the data csv

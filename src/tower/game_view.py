@@ -1,10 +1,11 @@
 """Game View"""
+
 from importlib.resources import as_file
 
 import arcade
 
 from . import sprites
-from .assets import get_tile_map_path
+from .assets import coord_to_index, get_tile_map_path
 from .constants import END_SPRITE_IDS, PATH_SPRITE_IDS, START_SPRITE_IDS
 
 
@@ -22,6 +23,8 @@ class GameView(arcade.View):
 
         self.towers = None
         self.enemies = None
+        self.active_projectiles = None
+        self.position_list = None
 
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
@@ -32,27 +35,23 @@ class GameView(arcade.View):
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
         self.towers = arcade.SpriteList()
-
-        self.towers.append(
-            sprites.Tower("tower1", "A basic tower", 1, [sprites.AttackSpec("Basic Attack", "A basic attack", 1, 1, 1)])
-        )
-
-        self.towers[0].center_x = self.scene.get_sprite_list("Tile Layer 1")[29].center_x
-        self.towers[0].center_y = self.scene.get_sprite_list("Tile Layer 1")[29].center_y
-
-        self.enemies = sprites.EnemyList()
+        self.enemies = arcade.SpriteList()
+        self.active_projectiles = arcade.SpriteList()
 
         # calculate the path enemies should follow (This only has to be done once)
-        position_list = self.calculate_enemy_path()
+        self.position_list = self.calculate_enemy_path()
+
+        # Temporary stuff
+        test_tower = sprites.Tower(
+            "tower1", "A basic tower", 1, [sprites.AttackSpec("Fireball", "A basic fireball", 25, 10, 5)], 300
+        )
+        test_tile = self.scene.get_sprite_list("Tile Layer 1")[coord_to_index(7, 11)]
+        test_tower.center_x = test_tile.center_x
+        test_tower.center_y = test_tile.center_y
+        self.towers.append(test_tower)
 
         # create dummy enemy
-        enemy = sprites.Enemy("enemy_1", "Dummy enemy to test following a path", 2, position_list)
-
-        # Set initial location of the enemy at the first point
-        enemy.center_x = position_list[0][0]
-        enemy.center_y = position_list[0][1]
-
-        self.enemies.append(enemy)
+        arcade.schedule(self.temp_add_enemy, 1)
 
     def on_draw(self):
         """Render the screen."""
@@ -66,11 +65,51 @@ class GameView(arcade.View):
 
         self.enemies.draw()
 
+        self.active_projectiles.draw()
+
     def on_update(self, delta_time: float):
         """Updates the position of all enemies"""
         self.enemies.update()
 
-    def calculate_enemy_path(self) -> list[tuple[int]]:
+        # Update tower targets
+        for tower in self.towers:
+            # If tower is already targeting, check if enemy is still in range
+            if tower.current_target and tower.get_enemy_dist(tower.current_target) < tower.radius:
+                continue
+            # Find target (closest enemy to tower)
+            target = None
+            current_min_dist = float("inf")
+            for enemy in self.enemies:
+                dist = tower.get_enemy_dist(enemy)
+                # Checks if enemy is in range and is closest to tower
+                if tower.radius > dist < current_min_dist:
+                    target = enemy
+                    current_min_dist = dist
+
+            # Set new target
+            tower.current_target = target
+        self.towers.update()
+        for tower in self.towers:
+            for projectile in tower.pending_attacks:
+                self.active_projectiles.append(projectile)
+            tower.pending_attacks.clear()
+
+        self.active_projectiles.update()
+
+        # Check that all enemies targeted are still alive
+        for tower in self.towers:
+            if tower.current_target is not None and not tower.current_target.is_alive:
+                tower.current_target = None
+
+        # If any projectiles are targeting dead enemies, find the next closest enemy and go for them
+        for projectile in self.active_projectiles:
+            if not projectile.target.is_alive:
+                if self.enemies:
+                    projectile.target = min(self.enemies, key=projectile.get_enemy_dist)
+                else:
+                    projectile.remove_from_sprite_lists()
+
+    def calculate_enemy_path(self) -> list[tuple[int, int]]:
         """calculates the path enemies should follow
         returns a list of tuples (x, y) representing a coordinate of the path
         that the enemy follows
@@ -114,7 +153,7 @@ class GameView(arcade.View):
                     return row_index, col_index
         return None, None
 
-    def get_next_path_position(self, row, col, tile_map, visited) -> int:
+    def get_next_path_position(self, row, col, tile_map, visited) -> tuple[int, int]:
         """Returns the next path position
         assumes that there is only one possible path
         """
@@ -139,3 +178,13 @@ class GameView(arcade.View):
             if tile_map[row][col + 1] in PATH_SPRITE_IDS and not visited[row][col + 1]:
                 return row, col + 1
         return -1, -1
+
+    # pylint: disable-next=unused-argument
+    def temp_add_enemy(self, delta_time: float):
+        """Temporary function for testing enemies"""
+        enemy = sprites.Enemy("enemy_1", "Dummy enemy to test following a path", 2, 50, self.position_list)
+
+        # Set initial location of the enemy at the first point
+        enemy.center_x, enemy.center_y = self.position_list[0]
+
+        self.enemies.append(enemy)
